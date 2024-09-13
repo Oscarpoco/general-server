@@ -8,7 +8,7 @@ const PORT = 5001;
 const hostname = 'localhost';
 
 // CREATED SERVER
-const server = http.createServer((res) => {
+const server = http.createServer((req, res) => {
   // 
   res.writeHead(200, { 'Content-Type': 'text/plain' });
 
