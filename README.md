@@ -1,112 +1,147 @@
-# To-Do API
-A simple Node.js server to manage a list of to-do items, supporting basic CRUD operations: Create, Read, Update, and Delete. The API uses HTTP requests to interact with the to-do list.
+# Node.js To-Do API Server
+
+A lightweight RESTful API server built with Node.js for managing to-do items. This server uses only built-in Node.js modules and provides basic CRUD operations for a to-do list.
+
+## Repository
+
+[GitHub Repository](https://github.com/Oscarpoco/general-server)
 
 ## Features
-Create a new to-do item (POST)
-Read all to-do items (GET)
-Update an existing to-do item by ID (PUT)
-Delete a to-do item by ID (DELETE)
 
-## Prerequisites
-Node.js installed on your machine.
+- **Create**: Add new to-do items to the list
+- **Read**: Retrieve all to-do items
+- **Update**: Modify existing to-do items by ID
+- **Delete**: Remove to-do items by ID
+- **In-Memory Storage**: To-do items are stored in memory (no database required)
 
-## Installation
-Clone the repository or download the project.
-Open a terminal and navigate to the project folder.
-Run the following command to install the dependencies (if needed):
+## Getting Started
 
-npm install
-Running the Server
-To start the server, run the following command:
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v12 or higher)
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Oscarpoco/general-server.git
+cd general-server
+```
+
+2. Start the server:
+```bash
 node server.js
+```
 
-
-The server will run on http://localhost:5001.
+The server will run at http://localhost:5001.
 
 ## API Endpoints
-1. Create a To-Do Item
-Method: POST
-Endpoint: /todos
-Body (JSON):
-json
 
-{
-  "title": "Sample to-do item",
-  "description": "Description of the to-do item"
-}
-Response:
-json
-
-{
-  "message": "To-do item created",
-  "item": {
-    "id": 1,
-    "title": "Sample to-do item",
-    "description": "Description of the to-do item"
-  }
-}
-
-2. Read All To-Do Items
-Method: GET
-Endpoint: /todos
-Response:
-json
-Copy code
-[
+### Create a To-Do Item
+- **URL**: `/todos`
+- **Method**: `POST`
+- **Body**: JSON object with to-do item properties
+- **Example**:
+  ```bash
+  curl -X POST http://localhost:5001/todos \
+    -H "Content-Type: application/json" \
+    -d '{"title": "Learn Node.js", "completed": false}'
+  ```
+- **Response**:
+  ```json
   {
-    "id": 1,
-    "title": "Sample to-do item",
-    "description": "Description of the to-do item"
+    "message": "To-do item created",
+    "item": {
+      "title": "Learn Node.js",
+      "completed": false,
+      "id": 1
+    }
   }
-]
+  ```
 
-3. Update a To-Do Item by ID
-Method: PUT
-Endpoint: /todos/:id
-Body (JSON):
-json
+### Get All To-Do Items
+- **URL**: `/todos`
+- **Method**: `GET`
+- **Example**:
+  ```bash
+  curl http://localhost:5001/todos
+  ```
+- **Response**:
+  ```json
+  [
+    {
+      "title": "Learn Node.js",
+      "completed": false,
+      "id": 1
+    }
+  ]
+  ```
 
-{
-  "title": "Updated title",
-  "description": "Updated description"
-}
-Response:
-json
-
-{
-  "message": "To-do item updated",
-  "item": {
-    "id": 1,
-    "title": "Updated title",
-    "description": "Updated description"
+### Update a To-Do Item
+- **URL**: `/todos/:id`
+- **Method**: `PUT`
+- **Body**: JSON object with properties to update
+- **Example**:
+  ```bash
+  curl -X PUT http://localhost:5001/todos/1 \
+    -H "Content-Type: application/json" \
+    -d '{"completed": true}'
+  ```
+- **Response**:
+  ```json
+  {
+    "message": "To-do item updated",
+    "item": {
+      "title": "Learn Node.js",
+      "completed": true,
+      "id": 1
+    }
   }
-}
+  ```
 
-4. Delete a To-Do Item by ID
-Method: DELETE
-Endpoint: /todos/:id
-Response:
-json
-
-{
-  "message": "To-do item deleted",
-  "item": {
-    "id": 1,
-    "title": "Sample to-do item",
-    "description": "Description of the to-do item"
+### Delete a To-Do Item
+- **URL**: `/todos/:id`
+- **Method**: `DELETE`
+- **Example**:
+  ```bash
+  curl -X DELETE http://localhost:5001/todos/1
+  ```
+- **Response**:
+  ```json
+  {
+    "message": "To-do item deleted",
+    "item": {
+      "title": "Learn Node.js",
+      "completed": true,
+      "id": 1
+    }
   }
-}
+  ```
 
-Error Handling
-If an invalid ID is provided for updating or deleting, the server will return:
+## How It Works
 
-json
+The server is built using Node.js's built-in `http` module. It handles different HTTP methods and routes to perform CRUD operations:
 
-{
-  "message": "To-do item not found"
-}
-If an unknown route is accessed, the server will return:
+- All to-do items are stored in an in-memory array (`toDo`).
+- Each to-do item is assigned a unique ID automatically.
+- The server parses JSON request bodies for POST and PUT requests.
+- Error handling is implemented for cases like item not found.
 
-plain/text
+## Project Structure
 
-Invalid endpoint
+```
+general-server/
+├── server.js              # Main server file with API logic
+└── README.md              # Project documentation
+```
+
+## Limitations
+
+- Data is stored in memory and will be lost when the server restarts.
+- No authentication or authorization mechanisms.
+- Limited error handling and validation.
+
+
+## Author
+
+Oscar Poco - [GitHub Profile](https://github.com/Oscarpoco)
